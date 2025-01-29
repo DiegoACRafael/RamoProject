@@ -1,20 +1,18 @@
-using System;
-using Domain.Model;
-using Infra.EF.Data.Mapping;
-using Infra.EF.Identities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.EF.Data.Context
 {
-    public class AppDataContext : IdentityDbContext<ApplicationUser,
-                                                  ApplicationRole,
-                                                  Guid,
-                                                  ApplicationUserClaim,
-                                                  ApplicationUserRole,
-                                                  ApplicationUserLogin,
-                                                  ApplicationRoleClaim,
-                                                  ApplicationUserToken>
+    public class AppDataContext : IdentityDbContext
+
+    // public class AppDataContext : IdentityDbContext<ApplicationUser,
+    //                                               ApplicationRole,
+    //                                               Guid,
+    //                                               ApplicationUserClaim,
+    //                                               ApplicationUserRole,
+    //                                               ApplicationUserLogin,
+    //                                               ApplicationRoleClaim,
+    //                                               ApplicationUserToken>
     {
 
         // public DbSet<Person> Persons { get; set; }

@@ -1,9 +1,8 @@
 using System;
-using Application.Configurations;
 using Application.Extensions;
 using Infra.EF.Data.Context;
-using Infra.EF.Identities;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,8 +16,9 @@ builder.Services.AddDbContext<AppDataContext>(options =>
     options.UseSqlite(connectionString));
 
 
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<AppDataContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<AppDataContext>()
+    .AddDefaultTokenProviders();
 
 SettingServices(builder, builder.Configuration);
 
