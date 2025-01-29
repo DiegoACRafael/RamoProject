@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Application
+namespace Application.Configurations
 {
-    public static class Configurations
+    public static class PaginedConfiguration
     {
         public const int DefaultStatusCode = 200;
         public const int DefaultPageNamber = 1;

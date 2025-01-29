@@ -9,9 +9,9 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
 Console.WriteLine($"Connection String: {connectionString}");
-
 
 builder.Services.AddDbContext<AppDataContext>(options =>
 {
@@ -20,9 +20,8 @@ builder.Services.AddDbContext<AppDataContext>(options =>
 
 SettingServices(builder, builder.Configuration);
 
-
-
 builder.Services.AddControllers();
+builder.AddJwtConfigurations();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
