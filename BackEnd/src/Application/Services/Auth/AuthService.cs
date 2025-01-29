@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Configurations;
 using Application.Request.Auth;
+using Infra.EF.Identities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -15,11 +16,11 @@ namespace Application.Services.Auth
 {
     public class AuthService : IAuthService
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly JwtSettings _jwtSettings;
 
-        public AuthService(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IOptions<JwtSettings> jwtSettings)
+        public AuthService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IOptions<JwtSettings> jwtSettings)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -30,7 +31,7 @@ namespace Application.Services.Auth
         {
             string accessToken = string.Empty;
 
-            var user = new IdentityUser
+            var user = new ApplicationUser
             {
                 UserName = registerUser.Email,
                 Email = registerUser.Email,

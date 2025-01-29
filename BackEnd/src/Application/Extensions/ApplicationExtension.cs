@@ -2,10 +2,13 @@ using System.Text;
 using Application.Configurations;
 using Application.Services;
 using Application.Services.Auth;
+using Infra.EF.Data.Context;
+using Infra.EF.Identities;
 using Infra.EF.Interfaces;
 using Infra.EF.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -29,6 +32,17 @@ namespace Application.Extensions
             services.AddScoped<IAddressRepository, AddressRepository>();
             return services;
         }
+
+        public static void AddIdentityConfiguration(this IServiceCollection services)
+        {
+            services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
+                        {
+                            o.SignIn.RequireConfirmedEmail = true;
+                        })
+                            .AddEntityFrameworkStores<AppDataContext>()
+                            .AddDefaultTokenProviders();
+        }
+
         public static void AddJwtConfigurations(this WebApplicationBuilder builder)
         {
             var JwtSettingsSection = builder.Configuration.GetSection("JwtSettings");

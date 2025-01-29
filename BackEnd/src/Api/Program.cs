@@ -1,4 +1,5 @@
 using System;
+using Application.Configurations;
 using Application.Extensions;
 using Infra.EF.Data.Context;
 using Microsoft.AspNetCore.Builder;
@@ -21,7 +22,6 @@ builder.Services.AddDbContext<AppDataContext>(options =>
 SettingServices(builder, builder.Configuration);
 
 builder.Services.AddControllers();
-builder.AddJwtConfigurations();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -46,4 +46,6 @@ static void SettingServices(WebApplicationBuilder builder, IConfiguration config
 {
     builder.Services.ConfigurationService();
     builder.Services.ConfigurationRepositories();
+    builder.AddJwtConfigurations();
+    builder.Services.AddIdentityConfiguration();
 }
