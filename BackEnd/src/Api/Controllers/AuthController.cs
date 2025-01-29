@@ -1,18 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Application.Request.Auth;
 using Application.Services.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -29,8 +24,6 @@ namespace Api.Controllers
         public async Task<IActionResult> Register(RegisterUserRequest registerUser)
         {
             if (!ModelState.IsValid) return ValidationProblem(ModelState);
-
-            if (await _authService.UserExists(registerUser.Email)) return Problem("E-mail já cadastrado");
 
             var token = await _authService.Register(registerUser);
 

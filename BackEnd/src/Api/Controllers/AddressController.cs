@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AddressController : Controller
     {
         private readonly IAddressService _addressService;
