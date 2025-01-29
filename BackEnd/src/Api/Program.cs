@@ -16,9 +16,9 @@ builder.Services.AddDbContext<AppDataContext>(options =>
     options.UseSqlite(connectionString));
 
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<AppDataContext>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDataContext>()  // Esse método já lida com o UserStore e RoleStore
+    .AddDefaultTokenProviders();
 
 SettingServices(builder, builder.Configuration);
 
@@ -36,6 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

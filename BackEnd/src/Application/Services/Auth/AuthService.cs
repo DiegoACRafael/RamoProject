@@ -64,7 +64,7 @@ namespace Application.Services.Auth
         private async Task<string> JwtGenerate(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _userManager.GetRolesAsync(user) ?? [];
 
             var claims = new List<Claim>
             {

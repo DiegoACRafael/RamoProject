@@ -1,11 +1,12 @@
 using Domain.Model;
 using Infra.EF.Data.Mapping;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.EF.Data.Context
 {
-    public class AppDataContext : IdentityDbContext
+    public class AppDataContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
 
         public DbSet<Person> Persons { get; set; }

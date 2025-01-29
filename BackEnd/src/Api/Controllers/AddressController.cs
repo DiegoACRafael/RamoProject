@@ -6,11 +6,13 @@ using Application.Response;
 using Application.Response.Address;
 using Application.Response.Person;
 using Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AddressController : Controller

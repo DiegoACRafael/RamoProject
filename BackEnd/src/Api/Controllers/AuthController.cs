@@ -23,8 +23,6 @@ namespace Api.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Register(RegisterUserRequest registerUser)
         {
-            if (!ModelState.IsValid) return ValidationProblem(ModelState);
-
             var token = await _authService.Register(registerUser);
 
             if (string.IsNullOrWhiteSpace(token))
