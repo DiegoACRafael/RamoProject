@@ -17,7 +17,14 @@ builder.Services.AddDbContext<AppDataContext>(options =>
     options.UseSqlite(connectionString));
 
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt => {
+    opt.SignIn.RequireConfirmedAccount = false;
+    opt.Password.RequireDigit = false;
+    opt.Password.RequiredLength = 3;
+    opt.Password.RequireLowercase = false;
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.Password.RequireUppercase = false;
+})
     .AddEntityFrameworkStores<AppDataContext>() 
     .AddDefaultTokenProviders();
 
