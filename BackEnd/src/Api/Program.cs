@@ -18,7 +18,7 @@ builder.Services.AddDbContext<AppDataContext>(options =>
 
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDataContext>()  // Esse método já lida com o UserStore e RoleStore
+    .AddEntityFrameworkStores<AppDataContext>() 
     .AddDefaultTokenProviders();
 
 SettingServices(builder, builder.Configuration);
