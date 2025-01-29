@@ -17,7 +17,7 @@ namespace Api.Controllers
             _authService = authService;
         }
 
-        [HttpPost("register")]
+        [HttpPost("v1/register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
@@ -31,7 +31,7 @@ namespace Api.Controllers
             return Created(nameof(Register), token);
         }
 
-        [HttpPost("login")]
+        [HttpPost("v1/login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
