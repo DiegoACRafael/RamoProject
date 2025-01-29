@@ -16,17 +16,18 @@ namespace Infra.EF.Data.Context
                                                   ApplicationRoleClaim,
                                                   ApplicationUserToken>
     {
-        public AppDataContext(DbContextOptions options) : base(options)
-        {
-        }
 
-        public DbSet<Person> Persons { get; set; }
-        public DbSet<Address> Addresses { get; set; }
+        // public DbSet<Person> Persons { get; set; }
+        // public DbSet<Address> Addresses { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // {
+        //     modelBuilder.ApplyConfiguration(new PersonMap());
+        //     modelBuilder.ApplyConfiguration(new AddressMap());
+        // }
+
+        public AppDataContext(DbContextOptions<AppDataContext> options) : base(options)
         {
-            modelBuilder.ApplyConfiguration(new PersonMap());
-            modelBuilder.ApplyConfiguration(new AddressMap());
         }
     }
 }
