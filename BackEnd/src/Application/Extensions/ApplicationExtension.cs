@@ -33,16 +33,6 @@ namespace Application.Extensions
             return services;
         }
 
-        public static void AddIdentityConfiguration(this IServiceCollection services)
-        {
-            services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
-                        {
-                            o.SignIn.RequireConfirmedEmail = true;
-                        })
-                            .AddEntityFrameworkStores<AppDataContext>()
-                            .AddDefaultTokenProviders();
-        }
-
         public static void AddJwtConfigurations(this WebApplicationBuilder builder)
         {
             var JwtSettingsSection = builder.Configuration.GetSection("JwtSettings");

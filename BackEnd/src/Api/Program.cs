@@ -2,6 +2,7 @@ using System;
 using Application.Configurations;
 using Application.Extensions;
 using Infra.EF.Data.Context;
+using Infra.EF.Identities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,13 +12,14 @@ using Microsoft.Extensions.Hosting;
 var builder = WebApplication.CreateBuilder(args);
 
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
-Console.WriteLine($"Connection String: {connectionString}");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString") ?? throw new InvalidOperationException("Connection string 'DefaultConnectionString' not found.");
 
 builder.Services.AddDbContext<AppDataContext>(options =>
-{
-    options.UseSqlite(connectionString);
-});
+    options.UseSqlite(connectionString));
+
+
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<AppDataContext>();
 
 SettingServices(builder, builder.Configuration);
 
@@ -47,5 +49,4 @@ static void SettingServices(WebApplicationBuilder builder, IConfiguration config
     builder.Services.ConfigurationService();
     builder.Services.ConfigurationRepositories();
     builder.AddJwtConfigurations();
-    builder.Services.AddIdentityConfiguration();
 }

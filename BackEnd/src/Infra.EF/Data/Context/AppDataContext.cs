@@ -16,10 +16,6 @@ namespace Infra.EF.Data.Context
                                                   ApplicationRoleClaim,
                                                   ApplicationUserToken>
     {
-        public AppDataContext()
-        {
-        }
-
         public AppDataContext(DbContextOptions options) : base(options)
         {
         }
@@ -30,6 +26,7 @@ namespace Infra.EF.Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new PersonMap());
+            modelBuilder.ApplyConfiguration(new AddressMap());
         }
     }
 }
