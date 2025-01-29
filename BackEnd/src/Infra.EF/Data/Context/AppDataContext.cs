@@ -4,15 +4,6 @@ using Microsoft.EntityFrameworkCore;
 namespace Infra.EF.Data.Context
 {
     public class AppDataContext : IdentityDbContext
-
-    // public class AppDataContext : IdentityDbContext<ApplicationUser,
-    //                                               ApplicationRole,
-    //                                               Guid,
-    //                                               ApplicationUserClaim,
-    //                                               ApplicationUserRole,
-    //                                               ApplicationUserLogin,
-    //                                               ApplicationRoleClaim,
-    //                                               ApplicationUserToken>
     {
 
         // public DbSet<Person> Persons { get; set; }
