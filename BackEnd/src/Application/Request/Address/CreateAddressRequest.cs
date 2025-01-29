@@ -9,7 +9,7 @@ namespace Application.Request.Address
     public class CreateAddressRequest
     {
         public Guid PersonId { get; set; }
-        
+
         [Required(ErrorMessage = "{0} and required")]
         public string Street { get; set; }
 

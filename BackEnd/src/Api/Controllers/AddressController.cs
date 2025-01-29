@@ -1,8 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using Application.Request.Address;
+using Application.Request.Person;
 using Application.Response;
 using Application.Response.Address;
+using Application.Response.Person;
 using Application.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +45,17 @@ namespace Api.Controllers
                 return NotFound();
 
             return Ok(Address);
+        }
+
+        [HttpPost("v1/created-address")]
+        [ProducesResponseType(201, Type = typeof(BaseResponse<CreateAddressResponse>))]
+        public async Task<IResult> PostAsync([FromBody] CreateAddressRequest request)
+        {
+            var result = await _addressService.CreateAsync(request);
+
+            return result.IsSuccess
+                 ? TypedResults.Created($"v1/address-by-id/{result.Data}", result)
+                 : TypedResults.BadRequest(result.Data);
         }
 
         [HttpPut("v1/update-addresss/{id:Guid}")]

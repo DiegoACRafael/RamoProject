@@ -68,6 +68,51 @@ namespace Application.Services
               : new BaseResponse<AddressGetByIdResponse>(response, message: "Successfully located");
         }
 
+        public async Task<BaseResponse<CreateAddressResponse>> CreateAsync(CreateAddressRequest request)
+        {
+            Address addressAdd = await _addressRespository.FirstOrDefaultAsync(where: a => a.PersonId == request.PersonId);
+
+            if (addressAdd != null)
+            {
+                MapAddress(addressAdd, request);
+                await _addressRespository.Update(addressAdd);
+            }
+            else
+            {
+                addressAdd = new Address();
+                MapAddress(addressAdd, request);
+                await _addressRespository.Create(addressAdd);
+            }
+
+            await _addressRespository.Commit();
+
+            var response = new CreateAddressResponse
+            {
+                personId = addressAdd.PersonId,
+                Street = addressAdd.Street,
+                Number = addressAdd.Number,
+                ZipCode = addressAdd.ZipCode,
+                Neighborhood = addressAdd.Neighborhood,
+                City = addressAdd.City,
+                State = addressAdd.State
+            };
+
+            return response is null
+           ? new BaseResponse<CreateAddressResponse>(null, 500, message: "[FX032] Failure to create Address")
+           : new BaseResponse<CreateAddressResponse>(response, message: "Successfully created Address");
+        }
+
+        private void MapAddress(Address address, CreateAddressRequest request)
+        {
+            address.PersonId = request.PersonId;
+            address.Street = request.Street;
+            address.Number = request.Number;
+            address.ZipCode = request.ZipCode;
+            address.Neighborhood = request.Neighborhood;
+            address.City = request.City;
+            address.State = request.State;
+        }
+
         public async Task<BaseResponse<AddressUpdateResponse>> UpdateAsync(Guid id, AddressUpdateRequest request)
         {
             var address = await _addressRespository.GetById(id);
@@ -110,7 +155,7 @@ namespace Application.Services
 
             var response = new AddressDeleteResponse
             {
-                 PersonId = id,
+                PersonId = id,
                 Street = address.Street,
                 Number = address.Number,
                 ZipCode = address.ZipCode,

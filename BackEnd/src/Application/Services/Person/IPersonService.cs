@@ -11,8 +11,8 @@ namespace Application.Services
     public interface IPersonService
     {
         Task<PagedResponse<List<PersonGetAllResponse>>> GetAsync();
-        Task<BaseResponse<CreatePersonResponse>> CreateAsync(CreatePersonRequest request);
         Task<BaseResponse<PersonGetByIdResponse>> GetByIdAsync(Guid id);
+        Task<BaseResponse<CreatePersonResponse>> CreateAsync(CreatePersonRequest request);
         Task<BaseResponse<PersonUpdateResponse>> UpdateAsync(Guid id, PersonUpdateRequest request);
         Task<BaseResponse<PersonDeleteResponse>> DeleteAsync(Guid id);
     }

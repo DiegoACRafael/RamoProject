@@ -26,6 +26,7 @@ namespace Infra.EF.Repositories
             return await _dbset.AsNoTracking().ToListAsync();
         }
 
+
         public async Task<T> GetById(Guid id)
         {
             return await _dbset.FirstOrDefaultAsync(x => x.Id == id);
@@ -61,7 +62,7 @@ namespace Infra.EF.Repositories
         {
             IQueryable<T> query = _context.Set<T>();
 
-         
+
             if (include != null)
             {
                 query = include(query);
@@ -88,5 +89,39 @@ namespace Infra.EF.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IList<T>> GetAsync(Expression<Func<T, bool>> where = null, Func<IQueryable<T>, IQueryable<T>> include = null)
+        {
+            IQueryable<T> query = _context.Set<T>().AsQueryable();
+
+            if (where != null)
+            {
+                query = query.Where(where);
+            }
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            return await query.ToListAsync();
+        }
+
+
+        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> where = null, Func<IQueryable<T>, IQueryable<T>> include = null)
+        {
+            IQueryable<T> query = _context.Set<T>().AsQueryable();
+
+            if (where != null)
+            {
+                query = query.Where(where);
+            }
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            return await query.FirstOrDefaultAsync();
+        }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Request.Address;
 using Application.Request.Person;
 using Application.Response;
 using Application.Response.Address;
@@ -26,8 +27,6 @@ namespace Application.Services
         {
             var request = new PersonGetAllRequest();
 
-            var getAllPerson = await _personRepository.GetAll();
-
             var persons = await _personRepository.GetAllAsync(include: q => q.Include(p => p.Address));
 
             var response = persons.Select(x => new PersonGetAllResponse
@@ -37,7 +36,7 @@ namespace Application.Services
                 Age = x.Age,
                 Cpf = x.CpfCnpj,
                 Email = x.Email,
-                Address = new AddressGetAllResponse
+                Address = x.Address != null ? new AddressGetAllResponse
                 {
                     Street = x.Address.Street,
                     Number = x.Address.Number,
@@ -46,14 +45,14 @@ namespace Application.Services
                     City = x.Address.City,
                     State = x.Address.State
 
-                }
+                } : null
             });
 
             var paged = response.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
 
             return (persons is null)
                 ? new PagedResponse<List<PersonGetAllResponse>>(null, 500, "[FX052] There is no registered Person")
-                : new PagedResponse<List<PersonGetAllResponse>>(paged, getAllPerson.Count, request.PageNumber, request.PageSize, message: "List Persons");
+                : new PagedResponse<List<PersonGetAllResponse>>(paged, persons.Count(), request.PageNumber, request.PageSize, message: "List Persons");
         }
 
 
@@ -71,7 +70,7 @@ namespace Application.Services
                 Age = person.Age,
                 Cpf = person.CpfCnpj,
                 Email = person.Email,
-                Address = new AddressGetByIdResponse
+                Address = person.Address != null ? new AddressGetByIdResponse
                 {
                     Street = person.Address.Street,
                     Number = person.Address.Number,
@@ -80,7 +79,7 @@ namespace Application.Services
                     City = person.Address.City,
                     State = person.Address.State
 
-                }
+                } : null
             };
 
             return (person is null)
@@ -90,22 +89,19 @@ namespace Application.Services
 
         public async Task<BaseResponse<CreatePersonResponse>> CreateAsync(CreatePersonRequest request)
         {
+
+            var _person = await _personRepository.FirstOrDefaultAsync(p => p.CpfCnpj == request.Cpf);
+
+            if (_person != null)
+                throw new Exception("User exists");
+
             var person = new Person
             {
                 Name = request.Name,
                 Age = request.Age,
                 CpfCnpj = request.Cpf,
                 Email = request.Email,
-                Address = new Address
-                {
-                    Street = request.Address.Street,
-                    Number = request.Address.Number,
-                    ZipCode = request.Address.ZipCode,
-                    Neighborhood = request.Address.Neighborhood,
-                    City = request.Address.City,
-                    State = request.Address.State
-
-                }
+                Address = request.Address != null ? MapAddress(request.Address) : null
             };
 
             var personAdd = await _personRepository.Create(person);
@@ -118,7 +114,7 @@ namespace Application.Services
                 Age = personAdd.Age,
                 CpfCnpj = personAdd.CpfCnpj,
                 Email = person.Email,
-                Address = new CreateAddressResponse
+                Address = request.Address != null ? new CreateAddressResponse
                 {
                     Street = request.Address.Street,
                     Number = request.Address.Number,
@@ -127,8 +123,7 @@ namespace Application.Services
                     City = request.Address.City,
                     State = request.Address.State
 
-                }
-
+                } : null
             };
 
             return personCreate is null
@@ -164,7 +159,7 @@ namespace Application.Services
                 Age = person.Age,
                 CpfCnpj = person.CpfCnpj,
                 Email = person.Email,
-                Address = new AddressUpdateResponse
+                Address = person.Address != null ? new AddressUpdateResponse
                 {
                     Street = person.Address.Street,
                     Number = person.Address.Number,
@@ -172,7 +167,7 @@ namespace Application.Services
                     Neighborhood = person.Address.Neighborhood,
                     City = person.Address.City,
                     State = person.Address.State
-                },
+                } : null
             };
 
 
@@ -204,5 +199,16 @@ namespace Application.Services
                : new BaseResponse<PersonDeleteResponse>(response, message: "Person successfully deleted");
 
         }
+
+        private Address MapAddress(CreateAddressRequest address)
+            => new Address
+            {
+                Street = address.Street,
+                Number = address.Number,
+                ZipCode = address.ZipCode,
+                Neighborhood = address.Neighborhood,
+                City = address.City,
+                State = address.State
+            };
     }
 }
