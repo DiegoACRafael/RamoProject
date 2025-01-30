@@ -11,6 +11,7 @@ using Infra.EF.Interfaces;
 using Infra.EF.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -79,6 +80,19 @@ namespace Application.Extensions
 
                     context.Products.AddRange(products);
                     context.SaveChanges();
+                }
+
+                if (!context.Users.Any())
+                {
+                    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                    var user = new IdentityUser
+                    {
+                        UserName = "admin@teste.com",
+                        Email = "admin@teste.com",
+                        EmailConfirmed = true
+                    };
+
+                    userManager.CreateAsync(user, "123456").ConfigureAwait(false);
                 }
             }
         }
