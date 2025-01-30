@@ -9,7 +9,7 @@ namespace Application.Services
 {
     public interface IProductService
     {
-        Task<PagedResponse<List<ProductGetAllResponse>>> GetAsync();
+        Task<PagedResponse<List<ProductGetResponse>>> GetAsync();
         Task<BaseResponse<ProductGetByIdResponse>> GetById(Guid id);
         Task<BaseResponse<CreateProductResponse>> Create(CreateProductRequest request);
         Task<BaseResponse<DeleteProductResponse>> DeleteAsync(Guid id);

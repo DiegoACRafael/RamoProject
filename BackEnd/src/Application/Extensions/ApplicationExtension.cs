@@ -87,17 +87,23 @@ namespace Application.Extensions
                     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
                     var user = new IdentityUser
                     {
-                        UserName = "admin@teste.com",
-                        Email = "admin@teste.com",
+                        UserName = "admin@example.com",
+                        Email = "admin@example.com",
                         EmailConfirmed = true
                     };
 
                     userManager.CreateAsync(user, "123456").ConfigureAwait(false);
                 }
+
+                if (!context.Person.Any())
+                {
+                    context.Person.AddRange(GenerateRandomPeople());
+                    context.SaveChanges();
+                }
             }
         }
 
-        public static List<Product> ProductsGenerate()
+        private static List<Product> ProductsGenerate()
         {
             var random = new Random();
             var products = new List<Product>();
@@ -121,9 +127,45 @@ namespace Application.Extensions
                 products.Add(product);
 
             }
-
-
             return products;
+        }
+
+        public static List<Person> GenerateRandomPeople(int count = 5)
+        {
+            var random = new Random();
+            var names = new[] { "John Doe", "Alice Smith", "Michael Johnson", "Emma Brown", "Robert Davis" };
+            var streets = new[] { "Main St", "Elm St", "Maple Ave", "Oak St", "Cedar Ln" };
+            var neighborhoods = new[] { "Downtown", "Suburbia", "Uptown", "Westside", "Eastside" };
+            var cities = new[] { "New York", "Los Angeles", "Chicago", "Houston", "Miami" };
+            var states = new[] { "NY", "CA", "IL", "TX", "FL" };
+
+            var people = new List<Person>();
+
+            for (int i = 0; i < count; i++)
+            {
+                var personId = Guid.NewGuid();
+                var person = new Person
+                {
+                    Name = names[random.Next(names.Length)],
+                    Age = random.Next(18, 80),
+                    CpfCnpj = $"{random.Next(100, 999)}.{random.Next(100, 999)}.{random.Next(100, 999)}-{random.Next(10, 99)}",
+                    Email = $"user{i}@example.com",
+                    Address = new Address
+                    {
+                        PersonId = personId,
+                        Street = streets[random.Next(streets.Length)],
+                        Number = random.Next(1, 9999).ToString(),
+                        Neighborhood = neighborhoods[random.Next(neighborhoods.Length)],
+                        ZipCode = $"{random.Next(10000, 99999)}-{random.Next(100, 999)}",
+                        City = cities[random.Next(cities.Length)],
+                        State = states[random.Next(states.Length)]
+                    }
+                };
+
+                people.Add(person);
+            }
+
+            return people;
         }
     }
 }

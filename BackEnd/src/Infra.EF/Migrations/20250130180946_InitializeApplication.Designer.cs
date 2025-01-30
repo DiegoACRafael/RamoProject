@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.EF.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20250130145648_Proposals")]
-    partial class Proposals
+    [Migration("20250130180946_InitializeApplication")]
+    partial class InitializeApplication
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,7 +107,14 @@ namespace Infra.EF.Migrations
                     b.Property<Guid>("PersnId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PersnId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Proposals", (string)null);
                 });
@@ -328,6 +335,23 @@ namespace Infra.EF.Migrations
                         .IsRequired();
 
                     b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("Domain.Model.Proposal", b =>
+                {
+                    b.HasOne("Domain.Model.Person", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersnId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Person");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Model.ProposalProduct", b =>

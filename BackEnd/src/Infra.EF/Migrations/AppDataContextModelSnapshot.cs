@@ -109,6 +109,8 @@ namespace Infra.EF.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PersnId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Proposals", (string)null);
@@ -334,9 +336,17 @@ namespace Infra.EF.Migrations
 
             modelBuilder.Entity("Domain.Model.Proposal", b =>
                 {
+                    b.HasOne("Domain.Model.Person", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersnId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Person");
 
                     b.Navigation("User");
                 });

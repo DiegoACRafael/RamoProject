@@ -71,19 +71,6 @@ namespace Infra.EF.Repositories
             return await query.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(Func<IQueryable<T>, IQueryable<T>> include = null)
-        {
-            IQueryable<T> query = _context.Set<T>();
-
-            if (include != null)
-            {
-                query = include(query);
-            }
-
-            return await query.ToListAsync();
-        }
-
-
         public async Task Commit()
         {
             await _context.SaveChangesAsync();

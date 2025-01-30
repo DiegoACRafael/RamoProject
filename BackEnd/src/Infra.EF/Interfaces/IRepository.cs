@@ -17,7 +17,6 @@ namespace Infra.EF.Interfaces
         Task<T> GetByIdAsync(Guid id, Func<IQueryable<T>, IQueryable<T>> include = null);
          Task<IList<T>> GetAsync(Expression<Func<T,bool>> where = null, Func<IQueryable<T>, IQueryable<T>> include = null);
         Task<T>FirstOrDefaultAsync(Expression<Func<T,bool>> where = null, Func<IQueryable<T>, IQueryable<T>> include = null);
-        Task<IEnumerable<T>> GetAllAsync(Func<IQueryable<T>, IQueryable<T>> include = null);
         Task Commit();
     }
 }

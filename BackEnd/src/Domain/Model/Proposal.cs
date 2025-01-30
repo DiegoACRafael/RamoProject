@@ -12,6 +12,7 @@ namespace Domain.Model
         public Guid PersnId { get; set; }
         public string UserId { get; set; }
         public virtual ICollection<ProposalProduct> ProposalProducts { get; set; }
+        public virtual Person Person { get; set; }
         public virtual IdentityUser User { get; set; }
     }
 }

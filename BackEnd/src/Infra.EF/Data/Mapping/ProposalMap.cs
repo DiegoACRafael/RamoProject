@@ -12,11 +12,15 @@ namespace Infra.EF.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<Proposal> builder)
         {
-            builder.HasKey(p=> p.Id);
+            builder.HasKey(p => p.Id);
 
-            builder.HasOne(p=> p.User)
+            builder.HasOne(p => p.User)
                     .WithMany()
-                    .HasForeignKey(p=> p.UserId);
+                    .HasForeignKey(p => p.UserId);
+
+            builder.HasOne(p => p.Person)
+                    .WithMany()
+                    .HasForeignKey(p => p.PersnId);
 
             builder.ToTable("Proposals");
         }

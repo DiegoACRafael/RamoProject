@@ -9,7 +9,7 @@ namespace Infra.EF.Data.Context
     public class AppDataContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
 
-        public DbSet<Person> Persons { get; set; }
+        public DbSet<Person> Person { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProposalProduct> ProposalProducts { get; set; }

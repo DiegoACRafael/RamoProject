@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Application.Response.Product
 {
-    public class ProductGetAllResponse
+    public class ProductGetResponse
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

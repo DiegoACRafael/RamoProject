@@ -27,7 +27,7 @@ namespace Application.Services
         {
             var request = new PersonGetAllRequest();
 
-            var persons = await _personRepository.GetAllAsync(include: q => q.Include(p => p.Address));
+            var persons = await _personRepository.GetAsync(include: q => q.Include(p => p.Address));
 
             var response = persons.Select(x => new PersonGetAllResponse
             {
@@ -38,6 +38,7 @@ namespace Application.Services
                 Email = x.Email,
                 Address = x.Address != null ? new AddressGetAllResponse
                 {
+                    PersonId = x.Id,
                     Street = x.Address.Street,
                     Number = x.Address.Number,
                     ZipCode = x.Address.ZipCode,

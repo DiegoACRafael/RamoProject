@@ -4,11 +4,13 @@ using Application.Request.Product;
 using Application.Response;
 using Application.Response.Product;
 using Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ProductController : ControllerBase
@@ -20,8 +22,9 @@ namespace Api.Controllers
             _productService = productService;
         }
 
+        [AllowAnonymous]
         [HttpGet("v1/lists-products")]
-        [ProducesResponseType(200, Type = typeof(BaseResponse<ProductGetAllResponse>))]
+        [ProducesResponseType(200, Type = typeof(BaseResponse<ProductGetResponse>))]
         public async Task<IActionResult> GetAsync()
         {
             var products = await _productService.GetAsync();
@@ -32,7 +35,7 @@ namespace Api.Controllers
             return Ok(products);
         }
 
-
+        [AllowAnonymous]
         [HttpGet("v1/product-by-id/{id:Guid}")]
         [ProducesResponseType(200, Type = typeof(BaseResponse<ProductGetByIdResponse>))]
         public async Task<IActionResult> GetByAsync([FromRoute] Guid id)

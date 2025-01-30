@@ -19,13 +19,13 @@ namespace Application.Services
             _productRepository = productRepository;
         }
 
-        public async Task<PagedResponse<List<ProductGetAllResponse>>> GetAsync()
+        public async Task<PagedResponse<List<ProductGetResponse>>> GetAsync()
         {
             var request = new ProductGetAllRequest();
 
             var products = await _productRepository.GetAll();
 
-            var response = products.Select(a => new ProductGetAllResponse
+            var response = products.Select(a => new ProductGetResponse
             {
                 Id = a.Id,
                 Name = a.Name,
@@ -36,8 +36,8 @@ namespace Application.Services
             var paged = response.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
 
             return (products is null)
-                ? new PagedResponse<List<ProductGetAllResponse>>(null, 500, "[FX052] There is no registered products")
-                : new PagedResponse<List<ProductGetAllResponse>>(paged, products.Count, request.PageNumber, request.PageSize, message: "List Products");
+                ? new PagedResponse<List<ProductGetResponse>>(null, 500, "[FX052] There is no registered products")
+                : new PagedResponse<List<ProductGetResponse>>(paged, products.Count, request.PageNumber, request.PageSize, message: "List Products");
         }
 
         public async Task<BaseResponse<ProductGetByIdResponse>> GetById(Guid id)

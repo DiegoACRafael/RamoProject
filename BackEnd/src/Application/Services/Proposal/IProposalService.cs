@@ -11,5 +11,6 @@ namespace Application.Services
     public interface IProposalService
     {
         Task<BaseResponse<CreateProposalResponse>> Create(CreateProposalRequest request, string userId);
+        Task <BaseResponse<IEnumerable<ProposalGetResponse>>> GetByUserIdAsync(string userId);
     }
 }
