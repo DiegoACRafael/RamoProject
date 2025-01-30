@@ -29,7 +29,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt =>
     .AddEntityFrameworkStores<AppDataContext>()
     .AddDefaultTokenProviders();
 
-SettingServices(builder, builder.Configuration);
+
 
 builder.Services.AddCors(options =>
    {
@@ -38,6 +38,8 @@ builder.Services.AddCors(options =>
                              .AllowAnyMethod()
                              .AllowAnyHeader());
    });
+
+SettingServices(builder, builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -83,6 +85,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.AppSeedDataBaseConstructor();  
 
 app.Run();
 

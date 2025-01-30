@@ -1,8 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Application.Configurations;
 using Application.Services;
 using Application.Services.Auth;
-using Application.Services.Proposal;
+using Domain.Model;
+using Infra.EF.Data.Context;
 using Infra.EF.Interfaces;
 using Infra.EF.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,6 +14,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using SQLitePCL;
 
 namespace Application.Extensions
 {
@@ -59,6 +64,48 @@ namespace Application.Extensions
                     ValidIssuer = jwtSettings.Issuer
                 };
             });
+        }
+
+        public static void AppSeedDataBaseConstructor(this WebApplication webApplication)
+        {
+
+            using (var scope = webApplication.Services.CreateScope()) // Criar o escopo corretamente
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AppDataContext>();
+
+                if (!context.Products.Any())
+                {
+                    var products = ProductsGenerate();
+
+                    context.Products.AddRange(products);
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        public static List<Product> ProductsGenerate()
+        {
+            var random = new Random();
+            var produtos = new List<Product>();
+
+            var nomes = new[] { "Filtro de Ar", "Rodas de Alumínio", "Farol LED", "Bateria Automotiva", "Pastilhas de Freio", "Amortecedor", "Suspensão a Ar", "Banco de Couro", "Pneu Off-road", "Catalisador", "Kit de Suspensão", "Kit de Distribuição", "Radiador de Óleo", "Lâmpada Xenon", "Kit de Embreagem", "Tampa de Válvula", "Limpador de Para-brisa", "Volante Esportivo", "Teto Solar", "Chave de Roda", "Escapamento Esportivo", "Sensor de Estacionamento", "Buzina Automotiva", "Filtro de Combustível", "Luva de Câmbio", "Sistema de Navegação" };
+            var descricoes = new[] { "Alta performance e durabilidade", "Design sofisticado e resistente", "Iluminação potente e eficiente", "Durabilidade garantida", "Alta qualidade e performance", "Amortecimento ideal para seu veículo", "Sistema de suspensão de última geração", "Luxo e conforto para o seu carro", "Pneus que oferecem maior aderência", "Redução de emissões e melhor desempenho", "Suspensão para performance extrema", "Peças para motor e transmissão", "Refrigeração otimizada para seu motor", "Iluminação para noites mais claras", "Peças de embreagem de alta qualidade", "Produto durável e resistente", "Peças de fácil instalação e grande eficácia", "Ajuste perfeito para seu veículo", "Conforto e estilo ao dirigir", "Facilidade de manuseio e eficiência", "Performance sonora superior", "Peças de longa durabilidade", "Alta performance e segurança", "Facilidade na instalação", "Tecnologia de ponta para seu carro" };
+
+            for (int i = 0; i < 50; i++)
+            {
+                var nomeAleatorio = nomes[random.Next(nomes.Length)];
+                var precoAleatorio = Math.Round((decimal)(random.NextDouble() * 1000 + 50), 2);  // Preço entre 50 e 1050
+                var descricaoAleatoria = descricoes[random.Next(descricoes.Length)];
+
+                var produto = new Product
+                {
+                    Name = nomeAleatorio,
+                    Price = precoAleatorio,
+                    Description = descricaoAleatoria
+                };
+            }
+
+            return produtos;
         }
     }
 }
