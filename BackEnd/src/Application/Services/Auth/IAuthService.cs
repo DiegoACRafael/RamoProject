@@ -12,6 +12,5 @@ namespace Application.Services.Auth
         Task<string> Register(RegisterUserRequest registerUser);
 
         Task<string> Login(LoginUserRequest loginUser);
-        Task<bool> UserExists(string email);
     }
 }

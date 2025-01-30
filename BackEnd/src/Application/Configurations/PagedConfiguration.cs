@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Application.Configurations
 {
-    public static class PaginedConfiguration
+    public static class PagedConfiguration
     {
         public const int DefaultStatusCode = 200;
         public const int DefaultPageNamber = 1;

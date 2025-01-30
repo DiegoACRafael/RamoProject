@@ -1,25 +1,33 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Domain.Model;
 using Infra.EF.Data.Mapping;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.EF.Data.Context
 {
-    public class AppDataContext : DbContext
+    public class AppDataContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
+
+        public DbSet<Person> Person { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProposalProduct> ProposalProducts { get; set; }
+        public DbSet<Proposal> Proposals { get; set; }
 
         public AppDataContext(DbContextOptions<AppDataContext> options) : base(options)
         {
         }
-        public DbSet<Person> Persons { get; set; }
-        public DbSet<Address> Addresses { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            modelBuilder.ApplyConfiguration(new PersonMap());
+            builder.ApplyConfiguration(new PersonMap());
+            builder.ApplyConfiguration(new AddressMap());
+            builder.ApplyConfiguration(new ProposalProductMap());
+            builder.ApplyConfiguration(new ProposalMap());
+            builder.ApplyConfiguration(new ProductMap());
+
+            base.OnModelCreating(builder);
         }
     }
 }

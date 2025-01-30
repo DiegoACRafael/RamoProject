@@ -1,18 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Application.Request.Auth;
 using Application.Services.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -22,16 +17,12 @@ namespace Api.Controllers
             _authService = authService;
         }
 
-        [HttpPost("register")]
+        [HttpPost("v1/register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Register(RegisterUserRequest registerUser)
         {
-            if (!ModelState.IsValid) return ValidationProblem(ModelState);
-
-            if (await _authService.UserExists(registerUser.Email)) return Problem("E-mail já cadastrado");
-
             var token = await _authService.Register(registerUser);
 
             if (string.IsNullOrWhiteSpace(token))
@@ -40,7 +31,7 @@ namespace Api.Controllers
             return Created(nameof(Register), token);
         }
 
-        [HttpPost("login")]
+        [HttpPost("v1/login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
@@ -53,7 +44,7 @@ namespace Api.Controllers
             if (string.IsNullOrWhiteSpace(token))
                 return Problem("Usuário ou senha incorretos");
 
-            return Ok(token);
+            return Ok(new { Token = token });
         }
     }
 }

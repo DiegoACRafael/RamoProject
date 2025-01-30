@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Application.Configurations;
 
 namespace Application.Response
 {
@@ -11,9 +12,9 @@ namespace Application.Response
         private readonly int _code;
 
         [JsonConstructor]
-        public BaseResponse() => _code = Configurations.DefaultStatusCode;
+        public BaseResponse() => _code = PagedConfiguration.DefaultStatusCode;
 
-        public BaseResponse(T data, int code = Configurations.DefaultStatusCode, string message = null)
+        public BaseResponse(T data, int code = PagedConfiguration.DefaultStatusCode, string message = null)
         {
             Data = data;
             Message = message;
