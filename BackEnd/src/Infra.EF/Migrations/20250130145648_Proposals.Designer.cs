@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.EF.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20250129174711_InitializeApp")]
-    partial class InitializeApp
+    [Migration("20250130145648_Proposals")]
+    partial class Proposals
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,6 +76,55 @@ namespace Infra.EF.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Person", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Model.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Model.Proposal", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("PersnId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Proposals", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Model.ProposalProduct", b =>
+                {
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ProposalId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ProductId", "ProposalId");
+
+                    b.HasIndex("ProposalId");
+
+                    b.ToTable("ProposalProducts", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -217,11 +266,9 @@ namespace Infra.EF.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ProviderDisplayName")
@@ -259,11 +306,9 @@ namespace Infra.EF.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
@@ -283,6 +328,25 @@ namespace Infra.EF.Migrations
                         .IsRequired();
 
                     b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("Domain.Model.ProposalProduct", b =>
+                {
+                    b.HasOne("Domain.Model.Product", "Product")
+                        .WithMany("ProposalProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Model.Proposal", "Proposal")
+                        .WithMany("ProposalProducts")
+                        .HasForeignKey("ProposalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Proposal");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -339,6 +403,16 @@ namespace Infra.EF.Migrations
             modelBuilder.Entity("Domain.Model.Person", b =>
                 {
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("Domain.Model.Product", b =>
+                {
+                    b.Navigation("ProposalProducts");
+                });
+
+            modelBuilder.Entity("Domain.Model.Proposal", b =>
+                {
+                    b.Navigation("ProposalProducts");
                 });
 #pragma warning restore 612, 618
         }

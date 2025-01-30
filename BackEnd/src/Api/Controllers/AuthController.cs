@@ -44,7 +44,7 @@ namespace Api.Controllers
             if (string.IsNullOrWhiteSpace(token))
                 return Problem("Usuário ou senha incorretos");
 
-            return Ok(token);
+            return Ok(new { Token = token });
         }
     }
 }

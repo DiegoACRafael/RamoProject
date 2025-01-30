@@ -17,7 +17,8 @@ builder.Services.AddDbContext<AppDataContext>(options =>
     options.UseSqlite(connectionString));
 
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt => {
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt =>
+{
     opt.SignIn.RequireConfirmedAccount = false;
     opt.Password.RequireDigit = false;
     opt.Password.RequiredLength = 3;
@@ -25,10 +26,18 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt => {
     opt.Password.RequireNonAlphanumeric = false;
     opt.Password.RequireUppercase = false;
 })
-    .AddEntityFrameworkStores<AppDataContext>() 
+    .AddEntityFrameworkStores<AppDataContext>()
     .AddDefaultTokenProviders();
 
 SettingServices(builder, builder.Configuration);
+
+builder.Services.AddCors(options =>
+   {
+       options.AddPolicy("AllowAllOrigins",
+           builder => builder.AllowAnyOrigin()
+                             .AllowAnyMethod()
+                             .AllowAnyHeader());
+   });
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -67,6 +76,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAllOrigins");
 
 app.UseAuthentication();
 app.UseAuthorization();

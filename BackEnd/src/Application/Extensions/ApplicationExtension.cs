@@ -2,6 +2,7 @@ using System.Text;
 using Application.Configurations;
 using Application.Services;
 using Application.Services.Auth;
+using Application.Services.Proposal;
 using Infra.EF.Interfaces;
 using Infra.EF.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -18,6 +19,8 @@ namespace Application.Extensions
         {
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IProposalService, ProposalService>();
             services.AddScoped<IAuthService, AuthService>();
             return services;
         }
@@ -27,6 +30,8 @@ namespace Application.Extensions
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProposalRepository, ProposalRepository>();
             return services;
         }
 

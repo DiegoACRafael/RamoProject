@@ -11,6 +11,9 @@ namespace Infra.EF.Data.Context
 
         public DbSet<Person> Persons { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProposalProduct> ProposalProducts { get; set; }
+        public DbSet<Proposal> Proposals { get; set; }
 
         public AppDataContext(DbContextOptions<AppDataContext> options) : base(options)
         {
@@ -20,6 +23,9 @@ namespace Infra.EF.Data.Context
         {
             builder.ApplyConfiguration(new PersonMap());
             builder.ApplyConfiguration(new AddressMap());
+            builder.ApplyConfiguration(new ProposalProductMap());
+            builder.ApplyConfiguration(new ProposalMap());
+            builder.ApplyConfiguration(new ProductMap());
 
             base.OnModelCreating(builder);
         }
