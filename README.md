@@ -84,6 +84,7 @@ A estrutura do projeto é organizada da seguinte forma:
 ## *7. Instruções de Configuração*
 
 •⁠  ⁠*JWT para API:* As chaves de configuração do JWT estão no ⁠ appsettings.json ⁠.
+
 •⁠  ⁠*Migrações do Banco de Dados:* As migrações são gerenciadas pelo Entity Framework Core. Não é necessário aplicar devido a configuração do Seed de dados.
 
 ## *8. Documentação da API*
