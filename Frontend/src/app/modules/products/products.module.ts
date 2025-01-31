@@ -19,7 +19,7 @@ import { ProductsHomeComponent } from './page/products-home/products-home.compon
 import { RouterModule } from '@angular/router';
 import { PRODUCTS_ROUTES } from './products.routing';
 import { ProductsTableComponent } from './components/products-table/products-table.component';
-import { ProdutFormComponent } from './components/product-form/produt-form/produt-form.component';
+import { ProductFormComponent } from './components/product-form/product-form.component';
 
 
 
@@ -27,7 +27,7 @@ import { ProdutFormComponent } from './components/product-form/produt-form/produ
   declarations: [
     ProductsHomeComponent,
     ProductsTableComponent,
-    ProdutFormComponent
+    ProductFormComponent
   ],
   imports: [
     CommonModule,
