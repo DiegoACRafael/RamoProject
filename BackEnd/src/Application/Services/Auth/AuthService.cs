@@ -32,7 +32,7 @@ namespace Application.Services.Auth
 
             var user = new IdentityUser
             {
-                UserName = registerUser.Email,
+                UserName = registerUser.Name,
                 Email = registerUser.Email,
                 EmailConfirmed = true
             };
@@ -48,17 +48,23 @@ namespace Application.Services.Auth
             return accessToken;
         }
 
-        public async Task<string> Login(LoginUserRequest loginUser)
+        public async Task<LoginUserResponse> Login(LoginUserRequest loginUser)
         {
-            var accessToken = string.Empty;
-            var result = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password, false, true);
+            LoginUserResponse login = default;
+            var user = await _userManager.FindByEmailAsync(loginUser.Email);
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, loginUser.Password, false, true);
 
             if (result.Succeeded)
             {
-                accessToken = await JwtGenerate(loginUser.Email);
+                login = new LoginUserResponse
+                {
+                    Name = user.UserName,
+                    Email = user.Email,
+                    Token = await JwtGenerate(loginUser.Email)
+                };
             }
 
-            return accessToken;
+            return login;
         }
 
         private async Task<string> JwtGenerate(string email)
