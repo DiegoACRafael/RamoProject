@@ -12,7 +12,7 @@ namespace Application.Request.Product
         public string Name { get; set; }
 
         [Required(ErrorMessage = "{0} and required")]
-        public int Price { get; set; }
+        public decimal Price { get; set; }
 
         [Required(ErrorMessage = "{0} and required")]
         public string Description { get; set; }

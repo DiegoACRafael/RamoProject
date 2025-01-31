@@ -95,42 +95,6 @@ namespace Infra.EF.Migrations
                     b.ToTable("Products", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Model.Proposal", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("PersnId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PersnId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Proposals", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Model.ProposalProduct", b =>
-                {
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ProposalId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ProductId", "ProposalId");
-
-                    b.HasIndex("ProposalId");
-
-                    b.ToTable("ProposalProducts", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -334,42 +298,6 @@ namespace Infra.EF.Migrations
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("Domain.Model.Proposal", b =>
-                {
-                    b.HasOne("Domain.Model.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersnId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Person");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Domain.Model.ProposalProduct", b =>
-                {
-                    b.HasOne("Domain.Model.Product", "Product")
-                        .WithMany("ProposalProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Model.Proposal", "Proposal")
-                        .WithMany("ProposalProducts")
-                        .HasForeignKey("ProposalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Proposal");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -424,16 +352,6 @@ namespace Infra.EF.Migrations
             modelBuilder.Entity("Domain.Model.Person", b =>
                 {
                     b.Navigation("Address");
-                });
-
-            modelBuilder.Entity("Domain.Model.Product", b =>
-                {
-                    b.Navigation("ProposalProducts");
-                });
-
-            modelBuilder.Entity("Domain.Model.Proposal", b =>
-                {
-                    b.Navigation("ProposalProducts");
                 });
 #pragma warning restore 612, 618
         }

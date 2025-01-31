@@ -4,4 +4,7 @@ export interface ProductResponse {
 }
 export interface ProductResponseDetail {
     id: string;
+    name: string;
+    description: string;
+    price: number;
 }
