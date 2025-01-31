@@ -49,7 +49,6 @@ export class ProductsService {
   }
 
   editProduct(requestData: EditProductRequest, productNumber: string): Observable<ProductResponse> {
-    debugger
     return this.http.put<ProductResponse>(
       `${this.API_URL}/Product/v1/update-product/${productNumber}`,
       requestData, 
