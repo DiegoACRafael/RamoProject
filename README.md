@@ -2,12 +2,13 @@
 
 ## *1. Apresentação*
 
-Bem-vindo ao repositório do projeto *[RamosProject]. 
+Bem-vindo ao repositório do projeto *[RamosProject]*. 
+
 Este é um teste prático exemplificando minhas skills em NET.
 
 O objetivo principal desenvolver uma aplicação que permita aos usuários autenticados criar, editar, visualizar e excluir pessoas e produtos.
 
-### *Autor(es)*
+### *Autor*
 •⁠  ⁠*Diego Augusto Coelho Rafael*
 
 ## *2. Proposta do Projeto*
@@ -15,8 +16,11 @@ O objetivo principal desenvolver uma aplicação que permita aos usuários auten
 O projeto consiste em:
 
 •⁠  ⁠*Frontend Angular:* Interface web para interação com produto.
+
 •⁠  ⁠*API RESTful:* Exposição dos recursos  para integração com outras aplicações ou desenvolvimento de front-ends alternativos.
+
 •⁠  ⁠*Autenticação e Autorização:* Implementação de controle de acesso utilizando o Identity.
+
 •⁠  ⁠*Acesso a Dados:* Implementação de acesso ao banco de dados através de ORM.
 
 ## *3. Tecnologias Utilizadas*
