@@ -19,9 +19,9 @@ namespace Application.Services
             _productRepository = productRepository;
         }
 
-        public async Task<PagedResponse<List<ProductGetResponse>>> GetAsync()
+        public async Task<PagedResponse<List<ProductGetResponse>>> GetAsync(int pageSize,int page)
         {
-            var request = new ProductGetAllRequest();
+            var request = new ProductGetAllRequest{PageSize = pageSize, PageNumber = page};
 
             var products = await _productRepository.GetAll();
 

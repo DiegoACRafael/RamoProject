@@ -25,9 +25,9 @@ namespace Api.Controllers
         [AllowAnonymous]
         [HttpGet("v1/lists-products")]
         [ProducesResponseType(200, Type = typeof(BaseResponse<ProductGetResponse>))]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> GetAsync(int pageSize = 10, int page = 1)
         {
-            var products = await _productService.GetAsync();
+            var products = await _productService.GetAsync(pageSize, page);
 
             if (products == null)
                 return NotFound();
