@@ -28,7 +28,7 @@ namespace Api.Controllers
             if (string.IsNullOrWhiteSpace(token))
                 return Problem("Falha ao registrar o usuário");
 
-            return Created(nameof(Register), token);
+            return Created(nameof(Register), new { Token = token });
         }
 
         [HttpPost("v1/login")]
@@ -39,12 +39,12 @@ namespace Api.Controllers
         {
             if (!ModelState.IsValid) return ValidationProblem(ModelState);
 
-            var token = await _authService.Login(loginUser);
+            var user = await _authService.Login(loginUser);
 
-            if (string.IsNullOrWhiteSpace(token))
+            if (user == null)
                 return Problem("Usuário ou senha incorretos");
 
-            return Ok(new { Token = token });
+            return Ok(user);
         }
     }
 }
